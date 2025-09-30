@@ -1,0 +1,28 @@
+handmade-marketplace/
+├── public/
+│   └── index.html
+├── src/
+│   ├── components/
+│   │   ├── auth/
+│   │   │   └── Login.js
+│   │   ├── sellers/
+│   │   │   └── SellerDashboard.js
+│   │   ├── buyers/
+│   │   │   ├── ProductList.js
+│   │   │   ├── ProductCard.js
+│   │   │   ├── ProductDetail.js
+│   │   │   ├── Cart.js
+│   │   │   └── Wishlist.js
+│   │   └── shared/
+│   │       └── Header.js
+│   ├── pages/
+│   │   ├── Home.js
+│   │   ├── BuyerPage.js
+│   │   └── SellerPage.js
+│   ├── App.js
+│   ├── index.js
+│   └── firebase.js
+├── .firebaserc
+├── firebase.json
+├── package.json
+└── README.md
