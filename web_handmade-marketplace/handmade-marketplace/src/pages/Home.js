@@ -10,7 +10,8 @@ const Home = () => {
   const [maxPrice, setMaxPrice] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [animatedDescription, setAnimatedDescription] = useState(""); // 👈 new state
+  const [animatedDescription, setAnimatedDescription] = useState("");
+  const [loadedImages, setLoadedImages] = useState({}); // track loaded images
 
   useEffect(() => {
     const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
@@ -20,10 +21,9 @@ const Home = () => {
     return () => unsubscribe();
   }, []);
 
-  // 🧠 Effect for typing animation when a product is selected
   useEffect(() => {
     if (selectedProduct && selectedProduct.description) {
-      setAnimatedDescription(""); // reset
+      setAnimatedDescription("");
       let index = 0;
       const words = selectedProduct.description.split(" ");
       const interval = setInterval(() => {
@@ -33,7 +33,7 @@ const Home = () => {
         } else {
           clearInterval(interval);
         }
-      }, 120); // speed in ms (adjust if needed)
+      }, 120);
       return () => clearInterval(interval);
     }
   }, [selectedProduct]);
@@ -62,6 +62,10 @@ const Home = () => {
     setSelectedProduct(null);
     setCurrentImageIndex(0);
     setAnimatedDescription("");
+  };
+
+  const handleImageLoad = (id) => {
+    setLoadedImages((prev) => ({ ...prev, [id]: true }));
   };
 
   return (
@@ -103,10 +107,13 @@ const Home = () => {
                   <img
                     src={p.images?.[0] || p.imageUrl}
                     alt={p.title}
-                    className="product-image"
+                    className={`product-image ${loadedImages[p.id] ? "loaded" : ""}`}
+                    onLoad={() => handleImageLoad(p.id)}
                   />
-                  <h3>{p.title}</h3>
-                  <p className="price">{p.price} MGA</p>
+                  <div className="product-info">
+                    <h3>{p.title}</h3>
+                    <p className="price">{p.price} MGA</p>
+                  </div>
                 </div>
               ))}
             </div>
@@ -126,7 +133,7 @@ const Home = () => {
                 <img
                   src={selectedProduct.images[currentImageIndex]}
                   alt={selectedProduct.title}
-                  className="modal-image"
+                  className="modal-image fade-in"
                 />
                 <button className="next-btn" onClick={nextImage}>›</button>
               </div>
@@ -134,14 +141,13 @@ const Home = () => {
               <img
                 src={selectedProduct.imageUrl}
                 alt={selectedProduct.title}
-                className="modal-image"
+                className="modal-image fade-in"
               />
             )}
 
             <h2>{selectedProduct.title}</h2>
             <p className="modal-price">{selectedProduct.price} MGA</p>
 
-            {/* 📝 Typing animation */}
             <p className="modal-description">{animatedDescription}</p>
 
             {selectedProduct.contacts && selectedProduct.contacts.length > 0 ? (

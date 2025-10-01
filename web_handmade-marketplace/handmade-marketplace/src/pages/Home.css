@@ -1,5 +1,6 @@
-/* Home.css - Fixed Modal Size + Typing Description + Big Close Button + 2x2 Grid on Mobile */
+/* Home.css - Fixed Modal + Typing + Grid + Aligned Titles/Prices + Fade-in */
 
+/* Container & header */
 .home-container {
   font-family: Arial, sans-serif;
   padding: 0 20px;
@@ -27,7 +28,7 @@
   border-radius: 4px;
 }
 
-/* ✅ Product grid: 2 per row on mobile */
+/* Product grid */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -35,59 +36,81 @@
   padding: 16px;
 }
 
-/* Each card is clickable */
+/* Product card */
 .product-card {
   background: #fff;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   padding: 12px;
-  text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
+  opacity: 0; /* start hidden for fade-in */
+  animation: fadeIn 0.5s forwards;
 }
 
 .product-card:hover {
   transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
 }
 
-/* Product image styling */
+/* Product image */
 .product-image {
   width: 100%;
   height: 160px;
-  object-fit: cover;
+  object-fit: contain; /* fully visible */
   border-radius: 8px;
   margin-bottom: 10px;
+  opacity: 0;
+  transition: opacity 0.6s ease-in;
 }
 
-/* Product title */
-.product-card h3 {
-  font-size: 1rem;
-  margin: 5px 0;
-  color: #333;
+.product-image.loaded {
+  opacity: 1;
+}
+
+/* Title + price container */
+.product-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   text-align: center;
-  height: 40px; /* keep consistent height */
-  overflow: hidden;
+  height: 60px; /* same height for all cards */
+  width: 100%;
 }
 
-/* Product price */
-.product-card .price {
+/* Title */
+.product-info h3 {
+  font-size: 1rem;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* max 2 lines */
+  -webkit-box-orient: vertical;
+  line-height: 1.2;
+}
+
+/* Price */
+.product-info .price {
   font-weight: bold;
   color: #007b5e;
   font-size: 0.95rem;
 }
 
-/* --- Modal --- */
+/* Fade-in animation */
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* Modal overlay */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -96,7 +119,7 @@
   box-sizing: border-box;
 }
 
-/* ✅ Fixed modal size */
+/* Fixed modal */
 .modal-content {
   position: relative;
   background: #fff;
@@ -113,7 +136,7 @@
   justify-content: flex-start;
 }
 
-/* Close Button */
+/* Close button */
 .close-btn {
   position: absolute;
   top: 12px;
@@ -128,57 +151,44 @@
   cursor: pointer;
   z-index: 10;
 }
+.close-btn:hover { background: #e60000; }
 
-.close-btn:hover {
-  background: #e60000;
-}
-
-/* Modal Image */
+/* Modal image */
 .modal-image {
   width: 100%;
   max-height: 300px;
   object-fit: contain;
   border-radius: 6px;
   margin: 15px 0 10px 0;
+  opacity: 0;
+  transition: opacity 0.6s ease-in;
 }
 
-/* Carousel Navigation */
-.prev-btn,
-.next-btn {
+.modal-image.fade-in {
+  opacity: 1;
+}
+
+/* Carousel */
+.prev-btn, .next-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0,0,0,0.5);
   color: #fff;
   border: none;
   font-size: 24px;
-  width: 36px;
-  height: 36px;
+  width: 36px; height: 36px;
   border-radius: 50%;
   cursor: pointer;
   z-index: 2;
 }
-
 .prev-btn { left: 8px; }
 .next-btn { right: 8px; }
-
-.prev-btn:hover,
-.next-btn:hover {
-  background: rgba(0, 0, 0, 0.8);
-}
+.prev-btn:hover, .next-btn:hover { background: rgba(0,0,0,0.8); }
 
 /* Modal title & price */
-.modal-content h2 {
-  margin: 8px 0 4px 0;
-  font-size: 20px;
-  color: #222;
-}
-
-.modal-price {
-  font-weight: bold;
-  margin: 5px 0 10px 0;
-  color: #007b5e;
-}
+.modal-content h2 { margin: 8px 0 4px 0; font-size: 20px; color: #222; }
+.modal-price { font-weight: bold; margin: 5px 0 10px 0; color: #007b5e; }
 
 /* Description */
 .modal-description {
@@ -194,66 +204,22 @@
 }
 
 /* Scrollbar */
-.modal-description::-webkit-scrollbar {
-  width: 6px;
-}
-.modal-description::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
-}
+.modal-description::-webkit-scrollbar { width: 6px; }
+.modal-description::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 3px; }
 
 /* Contacts */
-.modal-contacts {
-  margin-top: 12px;
-  text-align: left;
-}
-
-.no-contact {
-  font-style: italic;
-  color: #555;
-}
+.modal-contacts { margin-top: 12px; text-align: left; }
+.no-contact { font-style: italic; color: #555; }
 
 /* Footer */
-.home-footer {
-  text-align: center;
-  margin: 20px 0;
-  font-size: 14px;
-  color: #888;
-}
+.home-footer { text-align: center; margin: 20px 0; font-size: 14px; color: #888; }
 
-/* ✅ Responsive */
+/* Responsive */
 @media screen and (max-width: 500px) {
-  .products-grid {
-    grid-template-columns: repeat(2, 1fr); /* ✅ 2 columns on mobile */
-    gap: 10px;
-  }
-
-  .modal-content {
-    max-width: 95%;
-    padding: 12px;
-    min-height: 480px;
-  }
-
-  .modal-image {
-    max-height: 240px;
-  }
-
-  .close-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 22px;
-    top: 10px;
-    right: 10px;
-  }
-
-  .prev-btn,
-  .next-btn {
-    width: 32px;
-    height: 32px;
-    font-size: 22px;
-  }
-
-  .modal-description {
-    height: 90px;
-  }
+  .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .modal-content { max-width: 95%; padding: 12px; min-height: 480px; }
+  .modal-image { max-height: 240px; }
+  .close-btn { width: 40px; height: 40px; font-size: 22px; top: 10px; right: 10px; }
+  .prev-btn, .next-btn { width: 32px; height: 32px; font-size: 22px; }
+  .modal-description { height: 90px; }
 }
