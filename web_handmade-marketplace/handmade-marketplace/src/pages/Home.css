@@ -161,18 +161,25 @@
 }
 
 /* Close button */
+/* Close button */
 .close-btn {
-  position: sticky; /* stays visible when scrolling */
-  top: 10px;
-  right: 15px;
-  background: red; /* red background */
-  color: white; /* white X */
+  position: absolute;  /* stay in corner */
+  top: 20px;           /* moved down a bit from top */
+  right: 20px;         /* keep at right corner */
+  background: red;     /* red background */
+  color: white;        /* white X */
   border: none;
-  font-size: 1.5rem;
+  font-size: 2rem;     /* bigger X */
   cursor: pointer;
   border-radius: 50%;
-  padding: 5px 10px;
+  padding: 10px 14px;  /* bigger clickable area */
   z-index: 10;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2); /* optional: subtle shadow */
+  transition: transform 0.2s;
+}
+
+.close-btn:hover {
+  transform: scale(1.1); /* subtle hover effect */
 }
 
 .modal-image {
