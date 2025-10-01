@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/handmade-marketplace/static/css/main.a5de7727.css",
-    "main.js": "/handmade-marketplace/static/js/main.1e35d380.js",
+    "main.js": "/handmade-marketplace/static/js/main.a1d924ec.js",
     "static/js/453.554e786c.chunk.js": "/handmade-marketplace/static/js/453.554e786c.chunk.js",
     "index.html": "/handmade-marketplace/index.html",
     "main.a5de7727.css.map": "/handmade-marketplace/static/css/main.a5de7727.css.map",
-    "main.1e35d380.js.map": "/handmade-marketplace/static/js/main.1e35d380.js.map",
+    "main.a1d924ec.js.map": "/handmade-marketplace/static/js/main.a1d924ec.js.map",
     "453.554e786c.chunk.js.map": "/handmade-marketplace/static/js/453.554e786c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a5de7727.css",
-    "static/js/main.1e35d380.js"
+    "static/js/main.a1d924ec.js"
   ]
 }
