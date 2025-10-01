@@ -10,15 +10,33 @@ const Home = () => {
   const [maxPrice, setMaxPrice] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [animatedDescription, setAnimatedDescription] = useState(""); // 👈 new state
 
   useEffect(() => {
     const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setProducts(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
     });
-
     return () => unsubscribe();
   }, []);
+
+  // 🧠 Effect for typing animation when a product is selected
+  useEffect(() => {
+    if (selectedProduct && selectedProduct.description) {
+      setAnimatedDescription(""); // reset
+      let index = 0;
+      const words = selectedProduct.description.split(" ");
+      const interval = setInterval(() => {
+        if (index < words.length) {
+          setAnimatedDescription((prev) => prev + (index > 0 ? " " : "") + words[index]);
+          index++;
+        } else {
+          clearInterval(interval);
+        }
+      }, 120); // speed in ms (adjust if needed)
+      return () => clearInterval(interval);
+    }
+  }, [selectedProduct]);
 
   const filteredProducts = products.filter((p) => {
     const matchSearch =
@@ -43,6 +61,7 @@ const Home = () => {
   const closeModal = () => {
     setSelectedProduct(null);
     setCurrentImageIndex(0);
+    setAnimatedDescription("");
   };
 
   return (
@@ -76,12 +95,15 @@ const Home = () => {
           ) : (
             <div className="products-grid">
               {filteredProducts.map((p) => (
-                <div key={p.id} className="product-card">
+                <div
+                  key={p.id}
+                  className="product-card clickable"
+                  onClick={() => setSelectedProduct(p)}
+                >
                   <img
-                    src={p.images?.[0] || p.imageUrl} // first image as thumbnail
+                    src={p.images?.[0] || p.imageUrl}
                     alt={p.title}
-                    onClick={() => setSelectedProduct(p)}
-                    className="clickable"
+                    className="product-image"
                   />
                   <h3>{p.title}</h3>
                   <p className="price">{p.price} MGA</p>
@@ -92,13 +114,10 @@ const Home = () => {
         </section>
       </main>
 
-      {/* Modal for product details */}
+      {/* Modal */}
       {selectedProduct && (
         <div className="modal-overlay" onClick={closeModal}>
-          <div
-            className="modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <button className="close-btn" onClick={closeModal}>✕</button>
 
             {selectedProduct.images && selectedProduct.images.length > 0 ? (
@@ -121,7 +140,9 @@ const Home = () => {
 
             <h2>{selectedProduct.title}</h2>
             <p className="modal-price">{selectedProduct.price} MGA</p>
-            <p>{selectedProduct.description}</p>
+
+            {/* 📝 Typing animation */}
+            <p className="modal-description">{animatedDescription}</p>
 
             {selectedProduct.contacts && selectedProduct.contacts.length > 0 ? (
               <div className="modal-contacts">
