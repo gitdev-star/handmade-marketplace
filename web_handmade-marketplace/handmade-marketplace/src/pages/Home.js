@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
+import About from "./About";
 import "./Home.css";
 
 const Home = () => {
@@ -11,7 +12,8 @@ const Home = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [animatedDescription, setAnimatedDescription] = useState("");
-  const [loadedImages, setLoadedImages] = useState({}); // track loaded images
+  const [loadedImages, setLoadedImages] = useState({});
+  const [activePage, setActivePage] = useState("home"); // 👈 Navigation state
 
   useEffect(() => {
     const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
@@ -70,56 +72,80 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <header className="home-header">
-        <h1>Our Handmade Products</h1>
-        <p>Discover unique crafts and support local artisans in Madagascar!</p>
+      {/* 🔹 NAVIGATION BUTTONS */}
+      <nav className="simple-nav">
+        <button 
+          onClick={() => setActivePage("home")} 
+          className={activePage === "home" ? "nav-btn active" : "nav-btn"}
+        >
+          🏠 Home
+        </button>
+        <button 
+          onClick={() => setActivePage("about")} 
+          className={activePage === "about" ? "nav-btn active" : "nav-btn"}
+        >
+          📖 About Us
+        </button>
+      </nav>
 
-        <div className="filters">
-          <input
-            type="text"
-            placeholder="Search by name or description..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="search-input"
-          />
-          <input
-            type="number"
-            placeholder="Max price (MGA)"
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(e.target.value)}
-            className="price-input"
-          />
-        </div>
-      </header>
+      {/* 🔹 HOME PAGE CONTENT */}
+      {activePage === "home" && (
+        <>
+          <header className="home-header">
+            <h1>Our Handmade Products</h1>
+            <p>Discover unique crafts and support local artisans in Madagascar!</p>
 
-      <main>
-        <section className="products-section">
-          {filteredProducts.length === 0 ? (
-            <p>No products found.</p>
-          ) : (
-            <div className="products-grid">
-              {filteredProducts.map((p) => (
-                <div
-                  key={p.id}
-                  className="product-card clickable"
-                  onClick={() => setSelectedProduct(p)}
-                >
-                  <img
-                    src={p.images?.[0] || p.imageUrl}
-                    alt={p.title}
-                    className={`product-image ${loadedImages[p.id] ? "loaded" : ""}`}
-                    onLoad={() => handleImageLoad(p.id)}
-                  />
-                  <div className="product-info">
-                    <h3>{p.title}</h3>
-                    <p className="price">{p.price} MGA</p>
-                  </div>
-                </div>
-              ))}
+            <div className="filters">
+              <input
+                type="text"
+                placeholder="Search by name or description..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="search-input"
+              />
+              <input
+                type="number"
+                placeholder="Max price (MGA)"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(e.target.value)}
+                className="price-input"
+              />
             </div>
-          )}
-        </section>
-      </main>
+          </header>
+
+          <main>
+            <section className="products-section">
+              {filteredProducts.length === 0 ? (
+                <p>No products found.</p>
+              ) : (
+                <div className="products-grid">
+                  {filteredProducts.map((p) => (
+                    <div
+                      key={p.id}
+                      className="product-card clickable"
+                      onClick={() => setSelectedProduct(p)}
+                    >
+                      <img
+                        src={p.images?.[0] || p.imageUrl}
+                        alt={p.title}
+                        className={`product-image ${loadedImages[p.id] ? "loaded" : ""}`}
+                        onLoad={() => handleImageLoad(p.id)}
+                      />
+                      <div className="product-info">
+                        <h3>{p.title}</h3>
+                        <p className="price">{p.price} MGA</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+          </main>
+        </>
+      )}
+
+      {/* 🔹 ABOUT PAGE CONTENT */}
+      {activePage === "about" && <About />}
 
       {/* Modal */}
       {selectedProduct && (
