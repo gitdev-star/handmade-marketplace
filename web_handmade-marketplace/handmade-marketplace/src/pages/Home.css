@@ -1,4 +1,4 @@
-/* Home.css - Fixed Modal Size + Big Close Button + Aligned Cards */
+/* Home.css - Fixed Modal Size + Typing Description + Big Close Button + 2x2 Grid on Mobile */
 
 .home-container {
   font-family: Arial, sans-serif;
@@ -27,7 +27,7 @@
   border-radius: 4px;
 }
 
-/* ✅ Product grid */
+/* ✅ Product grid: 2 per row on mobile */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -35,11 +35,8 @@
   padding: 16px;
 }
 
-/* ✅ Product card aligned */
+/* Each card is clickable */
 .product-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -47,7 +44,9 @@
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .product-card:hover {
@@ -55,7 +54,7 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
-/* Product image */
+/* Product image styling */
 .product-image {
   width: 100%;
   height: 160px;
@@ -67,23 +66,18 @@
 /* Product title */
 .product-card h3 {
   font-size: 1rem;
-  margin: 6px 0 4px 0;
+  margin: 5px 0;
   color: #333;
-  font-weight: 600;
-  line-height: 1.2;
-  min-height: 38px; /* keeps names aligned */
-  display: flex;
-  align-items: center;
-  justify-content: center;
   text-align: center;
+  height: 40px; /* keep consistent height */
+  overflow: hidden;
 }
 
 /* Product price */
 .product-card .price {
   font-weight: bold;
   color: #007b5e;
-  font-size: 1rem;
-  margin-top: auto; /* push to bottom */
+  font-size: 0.95rem;
 }
 
 /* --- Modal --- */
@@ -102,7 +96,7 @@
   box-sizing: border-box;
 }
 
-/* ✅ Fixed modal size (no resizing) */
+/* ✅ Fixed modal size */
 .modal-content {
   position: relative;
   background: #fff;
@@ -119,17 +113,17 @@
   justify-content: flex-start;
 }
 
-/* ✅ Close Button (large and slightly down) */
+/* Close Button */
 .close-btn {
   position: absolute;
-  top: 12px; 
+  top: 12px;
   right: 12px;
   background: #ff4d4d;
   color: #fff;
   border: none;
-  width: 48px;
-  height: 48px;
-  font-size: 26px;
+  width: 44px;
+  height: 44px;
+  font-size: 24px;
   border-radius: 50%;
   cursor: pointer;
   z-index: 10;
@@ -186,7 +180,7 @@
   color: #007b5e;
 }
 
-/* ✅ Description (fixed height) */
+/* Description */
 .modal-description {
   text-align: justify;
   font-size: 15px;
@@ -199,7 +193,7 @@
   white-space: pre-wrap;
 }
 
-/* Optional scrollbar styling */
+/* Scrollbar */
 .modal-description::-webkit-scrollbar {
   width: 6px;
 }
@@ -229,6 +223,11 @@
 
 /* ✅ Responsive */
 @media screen and (max-width: 500px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr); /* ✅ 2 columns on mobile */
+    gap: 10px;
+  }
+
   .modal-content {
     max-width: 95%;
     padding: 12px;
@@ -240,9 +239,9 @@
   }
 
   .close-btn {
-    width: 44px;
-    height: 44px;
-    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
     top: 10px;
     right: 10px;
   }
