@@ -150,36 +150,36 @@
 .modal-content {
   background: #fff;
   border-radius: 12px;
-  padding: 20px;
+  padding: 20px 20px 40px; /* extra bottom padding for scrollable content */
   width: 90%;
   max-width: 500px;
-  max-height: 90vh; /* Keep modal within viewport */
-  overflow-y: auto; /* Scroll if content is taller */
+  max-height: 80vh;        /* prevent it from overflowing screen */
+  overflow-y: auto;        /* scroll if content is long */
   position: relative;
   animation: fadeIn 0.3s ease;
   text-align: center;
 }
 
-/* Close button */
-/* Close button */
+/* Close button - always visible on mobile */
 .close-btn {
-  position: absolute;  /* stay in corner */
-  top: 20px;           /* moved down a bit from top */
-  right: 20px;         /* keep at right corner */
-  background: red;     /* red background */
-  color: white;        /* white X */
+  position: sticky;      /* stays in view at top while scrolling */
+  top: 15px;             /* slightly lower than top */
+  right: 20px;
+  background: red;
+  color: white;
   border: none;
-  font-size: 2rem;     /* bigger X */
+  font-size: 2rem;       /* bigger */
   cursor: pointer;
   border-radius: 50%;
-  padding: 10px 14px;  /* bigger clickable area */
-  z-index: 10;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2); /* optional: subtle shadow */
+  padding: 10px 14px;
+  z-index: 20;
+  float: right;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   transition: transform 0.2s;
 }
 
 .close-btn:hover {
-  transform: scale(1.1); /* subtle hover effect */
+  transform: scale(1.1);
 }
 
 .modal-image {
@@ -215,5 +215,23 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+/* Responsive tweaks for very small screens */
+@media (max-width: 400px) {
+  .close-btn {
+    font-size: 1.8rem;
+    padding: 8px 12px;
+    top: 12px;
+    right: 15px;
+  }
+
+  .product-card img {
+    height: 180px;
+  }
+
+  .modal-image {
+    height: 200px;
   }
 }
