@@ -11,50 +11,49 @@ const About = () => {
         <div className="about-section">
           <h2>Our Mission</h2>
           <p>
-            Welcome to <strong>Handmade Marketplace</strong> — a platform dedicated to 
-            connecting talented artisans from Madagascar with buyers around the world. 
-            Our mission is to empower local creators, preserve cultural heritage, and 
-            promote sustainable commerce through authentic handmade products.
+            Welcome to <strong>Handmade Marketplace</strong> — an e-commerce platform dedicated 
+            to showcasing unique products crafted by talented artisans from Madagascar. 
+            Our mission is to connect buyers with exceptional handmade items that reflect 
+            creativity, quality, and originality.
           </p>
         </div>
 
         <div className="about-section">
           <h2>Who We Are</h2>
           <p>
-            We are a community-driven marketplace that celebrates the art of handcrafted 
-            goods. Each product listed on our platform tells a unique story of Malagasy 
-            culture, tradition, and craftsmanship. From intricate textiles to beautiful 
-            woodwork, every item is made with passion and dedication.
+            We are an online marketplace where buyers can explore a wide range of handmade 
+            products. From jewelry to textiles, woodcraft, and other crafts, each product 
+            on our platform is carefully presented to highlight its design, quality, and 
+            artistic value.
           </p>
         </div>
 
         <div className="about-section">
           <h2>Why Choose Us</h2>
           <ul>
-            <li>🎨 <strong>Authentic Craftsmanship:</strong> Every product is genuinely handmade by local artisans</li>
-            <li>🌍 <strong>Support Local Communities:</strong> Your purchase directly supports Malagasy families</li>
-            <li>♻️ <strong>Sustainable & Eco-friendly:</strong> We promote environmentally conscious practices</li>
-            <li>💎 <strong>Unique Products:</strong> Each piece is one-of-a-kind, made with care and tradition</li>
-            <li>🤝 <strong>Fair Trade:</strong> We ensure artisans receive fair compensation for their work</li>
+            <li>🎨 <strong>Unique Products:</strong> Every item is one-of-a-kind</li>
+            <li>🌍 <strong>Wide Selection:</strong> Explore various categories and styles</li>
+            <li>💎 <strong>High Quality:</strong> Products crafted with attention to detail</li>
+            <li>🛒 <strong>Easy Shopping:</strong> Browse, filter, and purchase with ease</li>
+            <li>📦 <strong>Reliable Delivery:</strong> Receive your products safely at your doorstep</li>
           </ul>
         </div>
 
         <div className="about-section">
           <h2>Our Vision</h2>
           <p>
-            We envision a world where traditional craftsmanship thrives in the digital age, 
-            where artisans have direct access to global markets, and where buyers can discover 
-            and purchase authentic, meaningful products that connect cultures and support 
-            sustainable livelihoods.
+            We aim to create a seamless online experience for buyers to discover and 
+            purchase authentic handmade products, while giving artisans a platform to 
+            display their creations to a global audience.
           </p>
         </div>
 
         <div className="about-section highlight">
-          <h2>Join Our Journey</h2>
+          <h2>Explore and Shop</h2>
           <p>
-            Every purchase you make helps preserve centuries-old traditions and provides 
-            sustainable income to talented artisans. Together, we're building a better 
-            future for handmade crafts in Madagascar. Thank you for being part of our story! ❤️
+            Browse our curated collection of handmade products and find items that suit 
+            your style. Whether it’s for yourself or as a gift, our platform makes it 
+            easy to shop for unique, high-quality artisan goods. ❤️
           </p>
         </div>
       </section>
