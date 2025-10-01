@@ -30,6 +30,8 @@ const AddProductBase64Realtime = () => {
   const [editPrice, setEditPrice] = useState('');
   const [editImageFile, setEditImageFile] = useState('');
   const [editImagePreview, setEditImagePreview] = useState('');
+  const [contacts, setContacts] = useState(['']); // new
+  const [editContacts, setEditContacts] = useState(['']); // new
 
   const user = auth.currentUser;
 
@@ -109,6 +111,24 @@ const AddProductBase64Realtime = () => {
     setEditImagePreview(URL.createObjectURL(file));
   };
 
+  // ----------------- CONTACT HANDLERS -----------------
+  const addContactField = () => setContacts([...contacts, '']);
+  const updateContact = (index, value) => {
+    const newContacts = [...contacts];
+    newContacts[index] = value;
+    setContacts(newContacts);
+  };
+  const removeContactField = (index) => setContacts(contacts.filter((_, i) => i !== index));
+
+  const addEditContactField = () => setEditContacts([...editContacts, '']);
+  const updateEditContact = (index, value) => {
+    const newContacts = [...editContacts];
+    newContacts[index] = value;
+    setEditContacts(newContacts);
+  };
+  const removeEditContactField = (index) => setEditContacts(editContacts.filter((_, i) => i !== index));
+  // ------------------------------------------------------
+
   const handleAdd = async (e) => {
     e.preventDefault();
     setMessage('');
@@ -134,13 +154,14 @@ const AddProductBase64Realtime = () => {
         imageUrl: base64Image,
         createdAt: serverTimestamp(),
         vendorId: user.uid,
-        vendorEmail: user.email,
-        status: 'active'
+        status: 'active',
+        contacts, // save dynamic contacts
       });
 
       setMessage('✅ Product added successfully!');
       setTitle(''); setDescription(''); setPrice('');
       setImageFile(null); setImagePreview('');
+      setContacts(['']); // reset contacts
     } catch (error) {
       console.error('Error adding product:', error);
       setMessage('❌ Failed to add product.');
@@ -157,6 +178,7 @@ const AddProductBase64Realtime = () => {
     setEditPrice(product.price);
     setEditImagePreview(product.imageUrl);
     setEditImageFile('');
+    setEditContacts(product.contacts || ['']); // load existing contacts
   };
 
   const handleSave = async (id) => {
@@ -174,7 +196,8 @@ const AddProductBase64Realtime = () => {
         title: editTitle,
         description: editDescription,
         price: parseFloat(editPrice),
-        imageUrl
+        imageUrl,
+        contacts: editContacts
       });
       setMessage('✅ Product updated successfully!');
       setEditingId(null);
@@ -217,6 +240,27 @@ const AddProductBase64Realtime = () => {
           <input type="number" placeholder="Price *" value={price} onChange={e => setPrice(e.target.value)} required min="0" step="100"/>
           <input type="file" accept="image/*" onChange={handleFileChange} required />
           {imagePreview && <img src={imagePreview} alt="Preview" className="preview-image" />}
+
+          {/* CONTACTS */}
+          <div className="contacts-section">
+            <h4>Contacts (Email, Phone, or Facebook link)</h4>
+            {contacts.map((contact, index) => (
+              <div key={index} className="contact-input">
+                <input
+                  type="text"
+                  placeholder="Enter contact"
+                  value={contact}
+                  onChange={(e) => updateContact(index, e.target.value)}
+                  required
+                />
+                {contacts.length > 1 && (
+                  <button type="button" onClick={() => removeContactField(index)}>Remove</button>
+                )}
+              </div>
+            ))}
+            <button type="button" onClick={addContactField}>Add Contact</button>
+          </div>
+
           <button type="submit" disabled={isSubmitting}>{isSubmitting ? 'Adding...' : 'Add Product'}</button>
         </form>
       </div>
@@ -233,6 +277,26 @@ const AddProductBase64Realtime = () => {
                 <input type="number" value={editPrice} onChange={e => setEditPrice(e.target.value)} />
                 <input type="file" accept="image/*" onChange={handleEditFileChange} />
                 {editImagePreview && <img src={editImagePreview} alt="Edit Preview" className="preview-image" />}
+
+                {/* EDIT CONTACTS */}
+                <div className="contacts-section">
+                  <h4>Contacts</h4>
+                  {editContacts.map((contact, index) => (
+                    <div key={index} className="contact-input">
+                      <input
+                        type="text"
+                        value={contact}
+                        onChange={(e) => updateEditContact(index, e.target.value)}
+                        required
+                      />
+                      {editContacts.length > 1 && (
+                        <button type="button" onClick={() => removeEditContactField(index)}>Remove</button>
+                      )}
+                    </div>
+                  ))}
+                  <button type="button" onClick={addEditContactField}>Add Contact</button>
+                </div>
+
                 <button onClick={() => handleSave(p.id)}>Save</button>
                 <button onClick={() => setEditingId(null)}>Cancel</button>
               </>
@@ -242,6 +306,10 @@ const AddProductBase64Realtime = () => {
                 <h4>{p.title}</h4>
                 <p>{p.description}</p>
                 <p>Price: {p.price} MGA</p>
+                <p>Contacts:</p>
+                <ul>
+                  {p.contacts && p.contacts.map((c, i) => <li key={i}>{c}</li>)}
+                </ul>
                 <button onClick={() => startEdit(p)}>Edit</button>
                 <button onClick={() => handleDelete(p.id)}>Delete</button>
               </>

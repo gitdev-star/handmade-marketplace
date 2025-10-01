@@ -8,7 +8,8 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-  const [selectedProduct, setSelectedProduct] = useState(null); // 🧩 For modal
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
@@ -26,6 +27,23 @@ const Home = () => {
     const matchPrice = maxPrice ? parseFloat(p.price) <= parseFloat(maxPrice) : true;
     return matchSearch && matchPrice;
   });
+
+  const nextImage = () => {
+    if (!selectedProduct?.images) return;
+    setCurrentImageIndex((prev) => (prev + 1) % selectedProduct.images.length);
+  };
+
+  const prevImage = () => {
+    if (!selectedProduct?.images) return;
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? selectedProduct.images.length - 1 : prev - 1
+    );
+  };
+
+  const closeModal = () => {
+    setSelectedProduct(null);
+    setCurrentImageIndex(0);
+  };
 
   return (
     <div className="home-container">
@@ -59,9 +77,8 @@ const Home = () => {
             <div className="products-grid">
               {filteredProducts.map((p) => (
                 <div key={p.id} className="product-card">
-                  {/* 🧩 Image clickable */}
                   <img
-                    src={p.imageUrl}
+                    src={p.images?.[0] || p.imageUrl} // first image as thumbnail
                     alt={p.title}
                     onClick={() => setSelectedProduct(p)}
                     className="clickable"
@@ -75,21 +92,33 @@ const Home = () => {
         </section>
       </main>
 
-      {/* 🧩 Modal for product details */}
+      {/* Modal for product details */}
       {selectedProduct && (
-        <div className="modal-overlay" onClick={() => setSelectedProduct(null)}>
+        <div className="modal-overlay" onClick={closeModal}>
           <div
             className="modal-content"
-            onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+            onClick={(e) => e.stopPropagation()}
           >
-            <button className="close-btn" onClick={() => setSelectedProduct(null)}>
-              ✕
-            </button>
-            <img
-              src={selectedProduct.imageUrl}
-              alt={selectedProduct.title}
-              className="modal-image"
-            />
+            <button className="close-btn" onClick={closeModal}>✕</button>
+
+            {selectedProduct.images && selectedProduct.images.length > 0 ? (
+              <div className="modal-carousel">
+                <button className="prev-btn" onClick={prevImage}>‹</button>
+                <img
+                  src={selectedProduct.images[currentImageIndex]}
+                  alt={selectedProduct.title}
+                  className="modal-image"
+                />
+                <button className="next-btn" onClick={nextImage}>›</button>
+              </div>
+            ) : (
+              <img
+                src={selectedProduct.imageUrl}
+                alt={selectedProduct.title}
+                className="modal-image"
+              />
+            )}
+
             <h2>{selectedProduct.title}</h2>
             <p className="modal-price">{selectedProduct.price} MGA</p>
             <p>{selectedProduct.description}</p>

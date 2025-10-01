@@ -1,29 +1,18 @@
-/* src/pages/Home.css */
+/* Home.css - Compact Modal & Close Button Fix */
+
 .home-container {
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, sans-serif;
+  padding: 0 20px;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
 }
 
 .home-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
-.home-header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-}
-
-.home-header p {
-  font-size: 1.1rem;
-  color: #555;
-}
-
-/* 🔍 Search Filters */
 .filters {
-  margin-top: 20px;
   display: flex;
   justify-content: center;
   gap: 10px;
@@ -32,206 +21,168 @@
 
 .search-input,
 .price-input {
-  padding: 10px 15px;
+  padding: 6px 10px;
+  font-size: 14px;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  width: 250px;
-  transition: border-color 0.2s;
-}
-
-.search-input:focus,
-.price-input:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-.products-section {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  border-radius: 4px;
 }
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
 }
 
 .product-card {
   background: #fff;
-  border: 1px solid #eee;
-  border-radius: 12px;
-  overflow: hidden;
-  padding: 15px;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-.product-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-.product-card h3 {
-  margin: 5px 0;
-  font-size: 1.2rem;
-}
-
-.product-card p {
-  font-size: 0.95rem;
-  color: #666;
-}
-
-.product-card .price {
-  font-weight: bold;
-  color: #000;
-}
-
-.contact-list h4 {
-  margin: 10px 0 5px;
-}
-
-.contact-list ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.contact-list li {
-  font-size: 0.9rem;
-  color: #444;
-}
-
-.no-contact {
-  font-size: 0.85rem;
-  color: #888;
-}
-
-.home-footer {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px;
   text-align: center;
-  margin-top: 50px;
-  padding: 20px 0;
-  border-top: 1px solid #eee;
-  color: #555;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
 }
 
-/* clickable image */
-.clickable {
+.product-card img.clickable {
+  width: 100%;
+  max-height: 150px;
+  object-fit: cover;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  border-radius: 4px;
 }
 
-.clickable:hover {
-  transform: scale(1.05);
-}
-
-/* Modal overlay */
+/* --- Compact Modal --- */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 1000;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-/* Modal content */
 .modal-content {
-  background: #fff;
-  border-radius: 12px;
-  padding: 20px 20px 40px; /* extra bottom padding for scrollable content */
-  width: 90%;
-  max-width: 500px;
-  max-height: 80vh;        /* prevent it from overflowing screen */
-  overflow-y: auto;        /* scroll if content is long */
   position: relative;
-  animation: fadeIn 0.3s ease;
+  background: #fff;
+  padding: 15px;
+  max-width: 400px;  /* compact width */
+  width: 90%;
+  border-radius: 8px;
   text-align: center;
-}
-
-/* Close button - always visible on mobile */
-.close-btn {
-  position: sticky;      /* stays in view at top while scrolling */
-  top: 15px;             /* slightly lower than top */
-  right: 20px;
-  background: red;
-  color: white;
-  border: none;
-  font-size: 2rem;       /* bigger */
-  cursor: pointer;
-  border-radius: 50%;
-  padding: 10px 14px;
-  z-index: 20;
-  float: right;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  transition: transform 0.2s;
-}
-
-.close-btn:hover {
-  transform: scale(1.1);
+  overflow: hidden;
 }
 
 .modal-image {
   width: 100%;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 15px;
+  max-height: 300px; /* bigger image */
+  object-fit: contain;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 10px;    /* move a bit down */
+  right: 10px;  /* slight margin from corner */
+  background: #ff4d4d;
+  color: #fff;
+  border: none;
+  width: 40px;     /* bigger for mobile */
+  height: 40px;    /* bigger for mobile */
+  font-size: 22px; /* bigger icon */
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;      /* ensure above images */
+}
+
+.close-btn:hover {
+  background: #e60000;
+}
+
+/* Carousel Navigation */
+.prev-btn,
+.next-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  border: none;
+  font-size: 24px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.prev-btn {
+  left: 5px;
+}
+
+.next-btn {
+  right: 5px;
+}
+
+.prev-btn:hover,
+.next-btn:hover {
+  background: rgba(0,0,0,0.8);
 }
 
 .modal-price {
   font-weight: bold;
-  font-size: 1.2rem;
-  color: #333;
+  margin: 5px 0;
 }
 
-.modal-contacts ul {
-  list-style: none;
-  padding-left: 0;
+.modal-contacts {
+  margin-top: 8px;
   text-align: left;
 }
 
-.modal-contacts li {
-  font-size: 0.95rem;
-  color: #444;
+.no-contact {
+  font-style: italic;
+  color: #555;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+/* Footer */
+.home-footer {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 14px;
+  color: #888;
 }
 
-/* Responsive tweaks for very small screens */
-@media (max-width: 400px) {
-  .close-btn {
-    font-size: 1.8rem;
-    padding: 8px 12px;
-    top: 12px;
-    right: 15px;
+/* Responsive adjustments */
+@media screen and (max-width: 500px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   }
 
-  .product-card img {
-    height: 180px;
+  .modal-content {
+    max-width: 95%;
+    padding: 10px;
   }
 
   .modal-image {
-    height: 200px;
+    max-height: 250px; /* adjust for mobile */
+  }
+
+  .prev-btn,
+  .next-btn {
+    font-size: 22px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .close-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
   }
 }
