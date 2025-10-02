@@ -274,14 +274,16 @@
 /* Responsive */
 @media screen and (max-width: 500px) {
   .simple-nav {
-    flex-direction: column;
-    gap: 10px;
-    padding: 15px;
+    flex-direction: row;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px;
   }
 
   .nav-btn {
-    width: 100%;
-    padding: 10px 20px;
-    font-size: 1rem;
+    width: auto;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    border-radius: 6px;
   }
 }
