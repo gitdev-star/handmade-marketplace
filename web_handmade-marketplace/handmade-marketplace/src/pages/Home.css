@@ -227,14 +227,25 @@
 
 /* Add these styles to your Home.css */
 
-/* Simple Navigation */
 .simple-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
   display: flex;
   justify-content: center;
   gap: 15px;
-  margin-bottom: 30px;
-  padding: 20px 0;
+  background: #fff;    /* or gradient you had */
+  padding: 15px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
+
+/* ensure page content isn't covered by fixed nav */
+.home-container {
+  padding-top: 70px;  /* adjust based on nav height */
+}
+
 
 .nav-btn {
   padding: 12px 30px;
