@@ -92,8 +92,8 @@ const Home = () => {
       {activePage === "home" && (
         <>
           <header className="home-header">
-            <h1>Our Handmade Products</h1>
-            <p>Discover unique crafts and support local artisans in Madagascar!</p>
+            <h1>Discover Local Products</h1>
+            <p>Find unique handmade items nearby at affordable prices!</p>
 
             <div className="filters">
               <input
