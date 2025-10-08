@@ -8,17 +8,14 @@ const UploadImage = () => {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  // Modal state
   const [modalProduct, setModalProduct] = useState(null);
   const [modalIndex, setModalIndex] = useState(0);
   const [animatedText, setAnimatedText] = useState("");
 
-  // Cleanup preview URL
   useEffect(() => {
     return () => previewUrl && URL.revokeObjectURL(previewUrl);
   }, [previewUrl]);
 
-  // Animate description for modal
   useEffect(() => {
     if (modalProduct?.description) {
       setAnimatedText("");
@@ -67,12 +64,8 @@ const UploadImage = () => {
     try {
       const response = await fetch(
         "https://local-marketplace-backend-production.up.railway.app/find-similar-products",
-        {
-          method: "POST",
-          body: formData,
-        }
+        { method: "POST", body: formData }
       );
-
       const data = await response.json();
       if (!response.ok || data.error) throw new Error(data.error || "Server error");
 
@@ -83,6 +76,15 @@ const UploadImage = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  // ------------------ MIME detection ------------------ //
+  const getMimeType = (base64) => {
+    if (base64.startsWith("/9j/")) return "image/jpeg";
+    if (base64.startsWith("iVBORw0")) return "image/png";
+    if (base64.startsWith("R0lGOD")) return "image/gif";
+    // fallback
+    return "image/jpeg";
   };
 
   // Modal navigation
@@ -100,12 +102,6 @@ const UploadImage = () => {
     setModalProduct(null);
     setModalIndex(0);
     setAnimatedText("");
-  };
-
-  // Helper to render Base64 images correctly
-  const getImageSrc = (imgObj) => {
-    if (!imgObj) return "/placeholder.png";
-    return imgObj.mime && imgObj.data ? `data:${imgObj.mime};base64,${imgObj.data}` : "/placeholder.png";
   };
 
   return (
@@ -144,34 +140,40 @@ const UploadImage = () => {
         <div className="similar-products">
           <h2>Similar Products</h2>
           <div className="products-grid">
-            {similarProducts.map((p) => (
-              <div key={p.id} className="product-card" onClick={() => setModalProduct(p)}>
-                <img src={getImageSrc(p.images?.[0])} alt={p.title} />
-                <h3>{p.title}</h3>
-                <p>{p.price} MGA</p>
-                <p>Similarity: {(p.similarity * 100).toFixed(2)}%</p>
-              </div>
-            ))}
+            {similarProducts.map((p) => {
+              const mime = getMimeType(p.images?.[0] || "");
+              return (
+                <div key={p.id} className="product-card" onClick={() => setModalProduct(p)}>
+                  <img
+                    src={p.images?.[0] ? `data:${mime};base64,${p.images[0]}` : p.imageUrl || "/placeholder.png"}
+                    alt={p.title}
+                  />
+                  <h3>{p.title}</h3>
+                  <p>{p.price} MGA</p>
+                  <p>Similarity: {(p.similarity * 100).toFixed(2)}%</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
 
-      {/* Modal */}
       {modalProduct && (
         <div className="modal-bg" onClick={closeModal}>
           <div className="modal-box" onClick={(e) => e.stopPropagation()}>
             <button className="modal-close" onClick={closeModal}>✕</button>
-
             {modalProduct.images?.length > 0 ? (
               <div className="modal-img-carousel">
                 <button onClick={prevModalImage}>‹</button>
-                <img src={getImageSrc(modalProduct.images[modalIndex])} alt={modalProduct.title} />
+                <img
+                  src={modalProduct.images?.[modalIndex] ? `data:${getMimeType(modalProduct.images[modalIndex])};base64,${modalProduct.images[modalIndex]}` : modalProduct.imageUrl || "/placeholder.png"}
+                  alt={modalProduct.title}
+                />
                 <button onClick={nextModalImage}>›</button>
               </div>
             ) : (
-              <img src="/placeholder.png" alt={modalProduct.title} />
+              <img src={modalProduct.imageUrl || "/placeholder.png"} alt={modalProduct.title} />
             )}
-
             <h2>{modalProduct.title}</h2>
             <p>{modalProduct.price} MGA</p>
             <p className="modal-description">{animatedText}</p>
