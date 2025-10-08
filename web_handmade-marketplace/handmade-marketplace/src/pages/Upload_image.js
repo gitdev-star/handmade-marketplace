@@ -136,7 +136,10 @@ const UploadImage = () => {
           <div className="products-grid">
             {similarProducts.map((p) => (
               <div key={p.id} className="product-card" onClick={() => setModalProduct(p)}>
-                <img src={p.images?.[0] || p.imageUrl || "/placeholder.png"} alt={p.title} />
+                <img
+                  src={p.images?.[0] ? `data:image/jpeg;base64,${p.images[0]}` : p.imageUrl || "/placeholder.png"}
+                  alt={p.title}
+                />
                 <h3>{p.title}</h3>
                 <p>{p.price} MGA</p>
                 <p>Similarity: {(p.similarity * 100).toFixed(2)}%</p>
@@ -154,7 +157,10 @@ const UploadImage = () => {
             {modalProduct.images?.length > 0 ? (
               <div className="modal-img-carousel">
                 <button onClick={prevModalImage}>‹</button>
-                <img src={modalProduct.images[modalIndex]} alt={modalProduct.title} />
+                <img
+                  src={modalProduct.images?.[modalIndex] ? `data:image/jpeg;base64,${modalProduct.images[modalIndex]}` : modalProduct.imageUrl || "/placeholder.png"}
+                  alt={modalProduct.title}
+                />
                 <button onClick={nextModalImage}>›</button>
               </div>
             ) : (
