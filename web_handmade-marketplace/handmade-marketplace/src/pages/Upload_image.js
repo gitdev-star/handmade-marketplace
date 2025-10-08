@@ -1,3 +1,4 @@
+// src/pages/Upload_image.js
 import React, { useState, useEffect } from "react";
 import "./Upload_image.css";
 
@@ -67,10 +68,7 @@ const UploadImage = () => {
     try {
       const response = await fetch(
         "https://local-marketplace-backend-production.up.railway.app/find-similar-products",
-        {
-          method: "POST",
-          body: formData,
-        }
+        { method: "POST", body: formData }
       );
 
       const data = await response.json();
@@ -102,21 +100,19 @@ const UploadImage = () => {
     setAnimatedText("");
   };
 
-  // Helper to render Base64 images correctly
   // Helper to render Base64 or URL images correctly
   const getImageSrc = (img) => {
     if (!img) return "/placeholder.png";
 
-    // If it's a string, check if it's Base64 (rough check)
+    // Handle Base64 string
     if (typeof img === "string") {
-      const isBase64 = /^[A-Za-z0-9+/=]+$/.test(img.replace(/\s/g, ""));
-      if (isBase64) return `data:image/jpeg;base64,${img}`;
+      if (img.startsWith("data:image")) return img;
+      if (/^[A-Za-z0-9+/=]+$/.test(img)) return `data:image/jpeg;base64,${img}`;
       return img; // assume it's a URL
     }
 
-    return "/placeholder.png"; // fallback
+    return "/placeholder.png";
   };
-
 
   return (
     <div className="upload-container">
