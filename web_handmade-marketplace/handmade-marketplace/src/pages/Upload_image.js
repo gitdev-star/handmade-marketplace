@@ -1,4 +1,3 @@
-// src/pages/Upload_image.js
 import React, { useState, useEffect } from "react";
 import "./Upload_image.css";
 
@@ -9,17 +8,14 @@ const UploadImage = () => {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  // Modal state
   const [modalProduct, setModalProduct] = useState(null);
   const [modalIndex, setModalIndex] = useState(0);
   const [animatedText, setAnimatedText] = useState("");
 
-  // Cleanup preview URL
   useEffect(() => {
     return () => previewUrl && URL.revokeObjectURL(previewUrl);
   }, [previewUrl]);
 
-  // Animate description for modal
   useEffect(() => {
     if (modalProduct?.description) {
       setAnimatedText("");
@@ -83,7 +79,6 @@ const UploadImage = () => {
     }
   };
 
-  // Modal navigation
   const nextModalImage = () => {
     if (!modalProduct?.images) return;
     setModalIndex((prev) => (prev + 1) % modalProduct.images.length);
@@ -100,18 +95,11 @@ const UploadImage = () => {
     setAnimatedText("");
   };
 
-  // Helper to render Base64 or URL images correctly
-  const getImageSrc = (img) => {
+  const getImageSrc = (img, mime = "image/jpeg") => {
     if (!img) return "/placeholder.png";
-
-    // Handle Base64 string
-    if (typeof img === "string") {
-      if (img.startsWith("data:image")) return img;
-      if (/^[A-Za-z0-9+/=]+$/.test(img)) return `data:image/jpeg;base64,${img}`;
-      return img; // assume it's a URL
-    }
-
-    return "/placeholder.png";
+    if (img.startsWith("data:image")) return img;
+    if (/^[A-Za-z0-9+/=]+$/.test(img)) return `data:${mime};base64,${img}`;
+    return img;
   };
 
   return (
@@ -119,9 +107,7 @@ const UploadImage = () => {
       <h1>📸 Find Products Similar to Your Image</h1>
 
       <div className="upload-inputs">
-        <label htmlFor="file-upload" className="file-btn">
-          📂 Choisir un fichier
-        </label>
+        <label htmlFor="file-upload" className="file-btn">📂 Choisir un fichier</label>
         <input
           id="file-upload"
           type="file"
@@ -152,7 +138,7 @@ const UploadImage = () => {
           <div className="products-grid">
             {similarProducts.map((p) => (
               <div key={p.id} className="product-card" onClick={() => setModalProduct(p)}>
-                <img src={getImageSrc(p.images?.[0])} alt={p.title} />
+                <img src={getImageSrc(p.images?.[0], p.mime)} alt={p.title} />
                 <h3>{p.title}</h3>
                 <p>{p.price} MGA</p>
                 <p>Similarity: {(p.similarity * 100).toFixed(2)}%</p>
@@ -162,7 +148,6 @@ const UploadImage = () => {
         </div>
       )}
 
-      {/* Modal */}
       {modalProduct && (
         <div className="modal-bg" onClick={closeModal}>
           <div className="modal-box" onClick={(e) => e.stopPropagation()}>
@@ -171,16 +156,23 @@ const UploadImage = () => {
             {modalProduct.images?.length > 0 ? (
               <div className="modal-img-carousel">
                 <button onClick={prevModalImage}>‹</button>
-                <img src={getImageSrc(modalProduct.images[modalIndex])} alt={modalProduct.title} />
+                <img
+                  src={
+                    modalProduct.images?.[modalIndex]
+                      ? getImageSrc(modalProduct.images[modalIndex], modalProduct.mime)
+                      : modalProduct.imageUrl || "/placeholder.png"
+                  }
+                  alt={modalProduct.title}
+                />
                 <button onClick={nextModalImage}>›</button>
               </div>
             ) : (
-              <img src="/placeholder.png" alt={modalProduct.title} />
+              <img src={modalProduct.imageUrl || "/placeholder.png"} alt={modalProduct.title} />
             )}
 
             <h2>{modalProduct.title}</h2>
             <p>{modalProduct.price} MGA</p>
-            <p className="modal-description">{animatedText}</p>
+            <p className="modal-description">{animatedText || "No description available."}</p>
           </div>
         </div>
       )}
