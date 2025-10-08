@@ -65,7 +65,7 @@ const UploadImage = () => {
     setSimilarProducts([]);
 
     try {
-      const response = await fetch("http://localhost:8000/find-similar-products", {
+      const response = await fetch("https://handmade-backend.fly.dev/find-similar-products", {
         method: "POST",
         body: formData,
       });

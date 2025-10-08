@@ -1,3 +1,4 @@
 backend/firebase_key.json
 .venv/
 node_modules/
+__pycache__/
