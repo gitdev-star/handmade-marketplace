@@ -65,10 +65,14 @@ const UploadImage = () => {
     setSimilarProducts([]);
 
     try {
-      const response = await fetch("https://local-marketplace-backend-production.up.railway.app/find-similar-products", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "https://local-marketplace-backend-production.up.railway.app/find-similar-products",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
       const data = await response.json();
       if (!response.ok || data.error) throw new Error(data.error || "Server error");
 
@@ -96,6 +100,12 @@ const UploadImage = () => {
     setModalProduct(null);
     setModalIndex(0);
     setAnimatedText("");
+  };
+
+  // Helper to render Base64 images correctly
+  const getImageSrc = (imgObj) => {
+    if (!imgObj) return "/placeholder.png";
+    return imgObj.mime && imgObj.data ? `data:${imgObj.mime};base64,${imgObj.data}` : "/placeholder.png";
   };
 
   return (
@@ -136,10 +146,7 @@ const UploadImage = () => {
           <div className="products-grid">
             {similarProducts.map((p) => (
               <div key={p.id} className="product-card" onClick={() => setModalProduct(p)}>
-                <img
-                  src={p.images?.[0] ? `data:image/jpeg;base64,${p.images[0]}` : p.imageUrl || "/placeholder.png"}
-                  alt={p.title}
-                />
+                <img src={getImageSrc(p.images?.[0])} alt={p.title} />
                 <h3>{p.title}</h3>
                 <p>{p.price} MGA</p>
                 <p>Similarity: {(p.similarity * 100).toFixed(2)}%</p>
@@ -154,18 +161,17 @@ const UploadImage = () => {
         <div className="modal-bg" onClick={closeModal}>
           <div className="modal-box" onClick={(e) => e.stopPropagation()}>
             <button className="modal-close" onClick={closeModal}>✕</button>
+
             {modalProduct.images?.length > 0 ? (
               <div className="modal-img-carousel">
                 <button onClick={prevModalImage}>‹</button>
-                <img
-                  src={modalProduct.images?.[modalIndex] ? `data:image/jpeg;base64,${modalProduct.images[modalIndex]}` : modalProduct.imageUrl || "/placeholder.png"}
-                  alt={modalProduct.title}
-                />
+                <img src={getImageSrc(modalProduct.images[modalIndex])} alt={modalProduct.title} />
                 <button onClick={nextModalImage}>›</button>
               </div>
             ) : (
-              <img src={modalProduct.imageUrl || "/placeholder.png"} alt={modalProduct.title} />
+              <img src="/placeholder.png" alt={modalProduct.title} />
             )}
+
             <h2>{modalProduct.title}</h2>
             <p>{modalProduct.price} MGA</p>
             <p className="modal-description">{animatedText}</p>
