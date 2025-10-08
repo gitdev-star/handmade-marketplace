@@ -1,0 +1,254 @@
+/* General container */
+.upload-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  background-color: #fdfdfd;
+}
+
+/* Page title */
+.upload-container h1 {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* File upload section */
+.upload-inputs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Styled file button */
+.file-btn {
+  display: inline-block;
+  padding: 10px 18px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.3s;
+}
+
+.file-btn:hover {
+  background-color: #45a049;
+}
+
+/* Preview image */
+.preview-img {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  cursor: pointer;
+  object-fit: cover;
+}
+
+/* Upload & Find button */
+.upload-inputs button {
+  padding: 10px 18px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background-color: #2196F3;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.upload-inputs button:disabled {
+  background-color: #a0c4ff;
+  cursor: not-allowed;
+}
+
+.upload-inputs button:hover:not(:disabled) {
+  background-color: #1976D2;
+}
+
+/* Error message */
+.error-msg {
+  color: #e53935;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Similar products section */
+.similar-products {
+  margin-top: 25px;
+}
+
+.similar-products h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Product grid */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+/* Product card */
+.product-card {
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: center;
+  padding: 10px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 5px 10px rgba(0,0,0,0.2);
+}
+
+.product-card img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+
+.product-card h3 {
+  font-size: 1rem;
+  margin: 4px 0;
+}
+
+.product-card p {
+  font-size: 0.85rem;
+  margin: 2px 0;
+}
+
+/* Modal background */
+.modal-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 15px;
+}
+
+/* Modal box */
+.modal-box {
+  background-color: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  max-height: 90%;
+  overflow-y: auto;
+  position: relative;
+  padding: 20px;
+  box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Modal close button */
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: #e53935;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close:hover {
+  background-color: #d32f2f;
+}
+
+/* Modal carousel */
+.modal-img-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.modal-img-carousel img {
+  max-width: 250px;
+  max-height: 200px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.modal-img-carousel button {
+  font-size: 1.5rem;
+  background: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.modal-img-carousel button:hover {
+  background-color: #1976D2;
+}
+
+/* Modal title & price */
+.modal-box h2 {
+  font-size: 1.2rem;
+  margin: 10px 0 5px;
+  text-align: center;
+}
+
+.modal-box p {
+  font-size: 1rem;
+  margin: 4px 0;
+  text-align: center;
+}
+
+/* Animated description */
+.modal-description {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  line-height: 1.3;
+  text-align: justify;
+}
+
+/* Responsive for small screens */
+@media (max-width: 400px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+  }
+
+  .modal-img-carousel img {
+    max-width: 180px;
+    max-height: 140px;
+  }
+
+  .file-btn, .upload-inputs button {
+    width: 100%;
+    text-align: center;
+  }
+}

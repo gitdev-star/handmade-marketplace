@@ -18,7 +18,10 @@ handmade-marketplace/
 │   ├── pages/
 │   │   ├── Home.js
 │   │   ├── BuyerPage.js
-│   │   └── SellerPage.js
+|   |   ├── SellerPage.js
+|   |   ├── About.js
+│   │   └── Upload_image.js
+|   |   
 │   ├── App.js
 │   ├── index.js
 │   └── firebase.js

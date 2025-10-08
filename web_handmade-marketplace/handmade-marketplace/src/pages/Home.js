@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import About from "./About";
+import Uploadimage from "./Upload_image";
 import "./Home.css";
 
 const Home = () => {
@@ -86,6 +87,13 @@ const Home = () => {
         >
           📖 About Us
         </button>
+
+      <button 
+          onClick={() => setActivePage("Upload_image")} 
+          className={activePage === "UploadImage" ? "nav-btn active" : "nav-btn"}
+        >
+          📖 Upload your Image
+        </button>
       </nav>
 
       {/* 🔹 HOME PAGE CONTENT */}
@@ -146,6 +154,8 @@ const Home = () => {
 
       {/* 🔹 ABOUT PAGE CONTENT */}
       {activePage === "about" && <About />}
+
+      {activePage === "Upload_image" && <Uploadimage />}
 
       {/* Modal */}
       {selectedProduct && (
