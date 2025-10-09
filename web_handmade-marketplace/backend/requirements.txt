@@ -1,7 +1,0 @@
-fastapi
-uvicorn[standard]
-tensorflow
-pillow
-firebase-admin
-requests
-numpy
