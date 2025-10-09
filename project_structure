@@ -1,4 +1,4 @@
-handmade-marketplace/
+local-marketplace/
 ├── public/
 │   └── index.html
 ├── src/
