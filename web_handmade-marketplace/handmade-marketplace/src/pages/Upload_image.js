@@ -104,9 +104,20 @@ const UploadImage = () => {
   const getImageSrc = (img) => {
     if (!img) return "/placeholder.png";
 
+    // Handle object with {mime, data} format from backend
+    if (typeof img === "object" && img.mime && img.data) {
+      // Check if data already has data URI prefix
+      if (img.data.startsWith("data:")) {
+        return img.data;
+      }
+      // Construct proper data URI with MIME type
+      return `data:${img.mime};base64,${img.data}`;
+    }
+
     // Handle Base64 string
     if (typeof img === "string") {
       if (img.startsWith("data:image")) return img;
+      if (img.startsWith("http")) return img; // URL
       if (/^[A-Za-z0-9+/=]+$/.test(img)) return `data:image/jpeg;base64,${img}`;
       return img; // assume it's a URL
     }
